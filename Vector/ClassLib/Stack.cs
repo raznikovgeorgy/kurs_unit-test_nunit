@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ClassLib
@@ -113,6 +114,22 @@ namespace ClassLib
             {
                 return false;
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Stack))
+                return false;
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -117031947;
+            hashCode = hashCode * -1521134295 + EqualityComparer<Vector[]>.Default.GetHashCode(_elem);
+            hashCode = hashCode * -1521134295 + _size.GetHashCode();
+            hashCode = hashCode * -1521134295 + _count.GetHashCode();
+            return hashCode;
         }
     }
 }

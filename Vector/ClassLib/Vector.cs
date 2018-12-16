@@ -15,21 +15,16 @@ namespace ClassLib
         /// Оператор для обращения к элементу вектора
         /// </summary>
         public int this[int i]
-		{
-			get
-			{
-				try
-				{
-					return elems[i];
-				}
-				catch (ArgumentOutOfRangeException outOfRange)
-				{
-
-					Console.WriteLine("Error: {0}", outOfRange.Message);
-					return -0;  //нужно что то вернуть еще, ругается если не возврщаться в этом блоке
-				}
-			}
-		}
+        {
+            get
+            {
+                if (i < 0)
+                    throw new ArgumentException("Индекс не может быть отрицательным");
+                if (i >= Size())
+                    throw new ArgumentException("Выход за пределы границы вектора");
+                return elems[i];
+            }
+        }
 
         /// <summary>
         /// Конструктор. При вызове создает динамичный контейнер
@@ -80,11 +75,21 @@ namespace ClassLib
         /// <param name="value">Значение, которое нужно добавить</param>
         public void Insert(int pos, int value)
         {
-			if (pos > 0)
+			if (pos >= 0)
 			{
-				if (elems.Count() >= pos)
-					elems.Insert(pos, value);
+                if (elems.Count() >= pos)
+                {
+                    elems.Insert(pos, value);
+                }
+                else
+                {
+                    throw new ArgumentException("Установка значения за пределы вектора");
+                }
 			}
+            else
+            {
+                throw new ArgumentException("Позиция в векторе должна быть положительной");
+            }
         }
 
         /// <summary>
@@ -93,11 +98,21 @@ namespace ClassLib
         /// <param name="pos">Позиция числа, которое нужно удалить</param>
         public void Erase(int pos)
         {
-			if (pos > 0)
-			{
-				if (elems.Count() >= pos)
-					elems.Remove(elems[pos]);
-			}
+            if (pos > 0)
+            {
+                if (elems.Count() >= pos)
+                {
+                    elems.Remove(elems[pos]);
+                }
+                else
+                {
+                    throw new ArgumentException("Удаление значения за пределами вектора");
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Позиция в векторе должна быть положительной");
+            }
         }
 
         /// <summary>
@@ -105,7 +120,14 @@ namespace ClassLib
         /// </summary>
         public void PopBack()
         {
-            elems.RemoveAt(elems.Count-1);
+            if (elems.Count > 0)
+            {
+                elems.RemoveAt(elems.Count - 1);
+            }
+            else
+            {
+                throw new ArgumentException("Вектор пуст");
+            }
         }
     }
 }
