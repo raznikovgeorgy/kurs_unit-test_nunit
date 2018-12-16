@@ -5,7 +5,6 @@ using System.Linq;
 namespace ClassLib
 {
     public class Vector
-    //оператор IErase, 
     {
         /// <summary>
         /// Создаем контейнер для хранения чисел

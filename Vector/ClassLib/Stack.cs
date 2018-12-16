@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ClassLib
 {
-    class Stack
+    public class Stack
     {
         /// <summary>
         /// Создается массив векторов
