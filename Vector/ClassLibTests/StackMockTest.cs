@@ -24,7 +24,6 @@ namespace ClassLibTests
         public void PushTestNew()
         {
             var mock = new Mock<IVector>();
-            mock.Setup(a => a.PushBack(5));
             _stack.Push(mock.Object);
             Assert.AreEqual(_stack.Top(), mock.Object);
         }
@@ -49,7 +48,6 @@ namespace ClassLibTests
                 for (int i = 0; i < count; i++)
                 {
                     var mock = new Mock<IVector>();
-                    mock.Setup(a => a.PushBack(5));
                     _stack.Push(mock.Object);
                 }
                 Assert.IsFalse(_stack.IsEmpty(), "Cтек пуст");
