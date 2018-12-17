@@ -81,10 +81,7 @@ namespace ClassLib
         /// <returns>True если стек пустой, False если в стеке есть вектора</returns>
         public bool IsEmpty()
         {
-            if (_count == 0)
-                return true;
-            else
-                return false;
+            return _count == 0;
         }
 
         /// <summary>
@@ -93,10 +90,7 @@ namespace ClassLib
         /// <returns>True если стек полнстью заполнен, false если не полностью</returns>
         public bool IsFull()
         {
-            if (_size == _count)
-                return true;
-            else
-                return false;
+            return _size == _count;
         }
     }
 }

@@ -15,6 +15,16 @@ namespace ClassLib.Tests
         }
 
         [TestMethod()]
+        public void Vector_Construct()
+        {
+            // arrage 
+            var testVector = new Vector();
+            var expected = 0;
+            // assert 
+            Assert.AreEqual(expected, testVector.Size(), "Размер вектора не верен");
+        }
+
+        [TestMethod()]
         public void PushBackTest()
         {
             _vector.PushBack(2);
