@@ -21,7 +21,7 @@ namespace ClassLib
             if (size > 0)
             {
                 _size = size;
-                _elem = new Vector[_size];
+                _elem = new IVector[_size];
             }
             else
                 throw new ArgumentException("Выход за пределы диапазона стека");
@@ -41,7 +41,7 @@ namespace ClassLib
         /// Добавляет вектор в стек
         /// </summary>
         /// <param name="vector">Вектор, который нужно добавить</param>
-        public void Push(Vector vector)
+        public void Push(IVector vector)
         {
             if (_count >= _size)
                 throw new ArgumentException("Выход за пределы диапазона стека");

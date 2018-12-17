@@ -61,8 +61,9 @@ namespace ClassLib.Tests
             try
             {
                 Assert.IsTrue(_stack.IsEmpty(), "Начальный стек не пуст");
-                _stack.Push(new Vector());
-                Assert.IsFalse(_stack.IsEmpty(), "Начальный стек не пуст");
+                for (int i = 0; i < count; i++)
+                    _stack.Push(new Vector());
+                Assert.IsFalse(_stack.IsEmpty(), "Cтек  пуст");
             }
             catch (Exception ex)
             {
