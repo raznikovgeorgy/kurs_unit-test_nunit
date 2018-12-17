@@ -5,7 +5,7 @@ namespace ClassLib
 {
     public class Stack
     {
-        private Vector[] _elem;
+        private IVector[] _elem;
         private int _size;
 
         private int _count;
@@ -53,11 +53,11 @@ namespace ClassLib
         /// Взять верхний вектор из стека и удалить его оттуда 
         /// </summary>
         /// <returns>Вектор который находится на вершине стека</returns>
-        public Vector Pull()
+        public IVector Pull()
         {
             if (_count == 0)
                 throw new Exception("Стек пуст");
-            Vector temp = _elem[_count - 1];
+            IVector temp = _elem[_count - 1];
             Array.Clear(_elem, _count - 1, _count - 1);
             _count--;
             return temp;
@@ -67,7 +67,7 @@ namespace ClassLib
         /// Получаем вектор с вершины стека, но не удаляем
         /// </summary>
         /// <returns>Вектор на вершине стека</returns>
-        public Vector Top()
+        public IVector Top()
         {
             if (_count == 0)
                 throw new Exception("Стек пуст");

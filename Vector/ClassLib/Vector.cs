@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ClassLib
 {
-    public class Vector
+    public class Vector : IVector
     {
         /// <summary>
         /// Создаем контейнер для хранения чисел
