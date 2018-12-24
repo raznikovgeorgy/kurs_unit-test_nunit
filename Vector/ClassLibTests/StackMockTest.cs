@@ -1,26 +1,26 @@
-﻿using ClassLib;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
+using ClassLib;
+using Moq;
 
 namespace ClassLibTests
 {
-    [TestClass]
+    [TestFixture]
     public class StackMockTest
     {
         private Stack _stack;
 
-        [TestInitialize()]
+        [SetUp]
         public void Init()
         {
             _stack = new Stack(5);
         }
 
-        [TestMethod()]
+        [Test]
         public void PushTestNew()
         {
             var mock = new Mock<IVector>();
@@ -28,37 +28,31 @@ namespace ClassLibTests
             Assert.AreEqual(_stack.Top(), mock.Object);
         }
 
-        [TestMethod()]
+        [Test]
         public void ClearTest()
         {
             _stack.Push((new Mock<IVector>()).Object);
             _stack.Clear();
             Assert.IsTrue(_stack.IsEmpty(), "Стек не пуст");
         }
-        
-        [DataTestMethod]
-        [DataRow(1)]
-        [DataRow(3)]
-        [DataRow(6)]
+
+        [TestCase(66)]
         public void PushTest(int count)
         {
-            try
-            {
-                Assert.IsTrue(_stack.IsEmpty(), "Начальный стек не пуст");
-                for (int i = 0; i < count; i++)
+            Assert.IsTrue(_stack.IsEmpty(), "Начальный стек не пуст");
+
+            Assert.Throws<ArgumentException>(() => {
+                for (int i = 0; i < count; ++i)
                 {
                     var mock = new Mock<IVector>();
                     _stack.Push(mock.Object);
                 }
-                Assert.IsFalse(_stack.IsEmpty(), "Cтек пуст");
-            }
-            catch (Exception ex)
-            {
-                Assert.AreEqual(ex.Message, "Выход за пределы диапазона стека", "Не совпадают ошибки");
-            }
+            });
+
+            Assert.IsFalse(_stack.IsEmpty(), "Cтек пуст");
         }
 
-        [TestMethod()]
+        [Test]
         public void PullTest()
         {
             var mock1 = new Mock<IVector>();
@@ -70,35 +64,24 @@ namespace ClassLibTests
             Assert.IsTrue(_stack.IsEmpty(), "Стек не пуст");
         }
 
-        [TestMethod()]
-        public void PullTestNegative()
+        [Test]
+        public void PullTest_ArgumentException()
         {
-            var mock = new Mock<IVector>();
-            _stack.Push(mock.Object);
-            Assert.AreEqual(_stack.Pull(), mock.Object, "Не соответствует первому значению");
-            try
-            {
-                var vector2 = _stack.Pull();
-                Assert.Fail("Должна была быть ошибка");
-            }
-            catch (Exception ex)
-            {
-                Assert.AreEqual(ex.Message, "Стек пуст", "Не совпадают ошибки");
-            }
+            Assert.Throws<Exception>(() => { var testVector = _stack.Pull(); });
         }
 
-        [TestMethod()]
+        [Test]
         public void TopTest()
         {
-            var mock1 = new Mock<IVector>();
-            var mock2 = new Mock<IVector>();
-            _stack.Push(mock1.Object);
-            _stack.Push(mock2.Object);
-            Assert.AreEqual(_stack.Top(), mock2.Object, "Не соответствует первому значению");
-            Assert.IsFalse(_stack.IsEmpty(), "Стек не пуст");
+            var actual = new Mock<IVector>();
+            var expected = new Mock<IVector>();
+            expected = actual;
+            _stack.Push(actual.Object);
+            Assert.AreEqual(_stack.Top(), expected.Object, "Не соответствует ожидаемому значению");
+            Assert.IsFalse(_stack.IsEmpty(), "Стек пуст");
         }
 
-        [TestMethod()]
+        [Test]
         public void IsEmptyTest()
         {
             Assert.IsTrue(_stack.IsEmpty(), "Начальный стек не пуст");
@@ -108,17 +91,17 @@ namespace ClassLibTests
             Assert.IsTrue(_stack.IsEmpty(), "Стек не пуст");
         }
 
-        [TestMethod()]
-        public void IsFullTest()
+        [TestCase(5, Description = "Проверка метода IsFull")]
+        public void IsFullTest(int count)
         {
-            Assert.IsFalse(_stack.IsFull(), "Начальный стек не полон");
-            _stack.Push((new Mock<IVector>()).Object);
-            Assert.IsFalse(_stack.IsFull(), "Стек не полон");
-            _stack.Push((new Mock<IVector>()).Object);
-            _stack.Push((new Mock<IVector>()).Object);
-            _stack.Push((new Mock<IVector>()).Object);
-            _stack.Push((new Mock<IVector>()).Object);
-            Assert.IsTrue(_stack.IsFull(), "Стек полон");
+            Assert.IsFalse(_stack.IsFull(), "Начальный стек не заполнен");
+
+            for (int i = 0; i < count; ++i)
+            {
+                _stack.Push((new Mock<IVector>()).Object);
+            }
+
+            Assert.True(_stack.IsFull(), "Стек не полон");
         }
     }
 }
